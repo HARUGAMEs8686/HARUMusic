@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>HARU Music - 公式サイト</title>
+        <meta name="description" content="オリジナル楽曲の無料配布・ダウンロードページ" />
+        <meta property="og:title" content="HARU Music" />
+        <meta property="og:type" content="website" />
+
+        <!-- アイコン -->
+        <link rel="icon" type="image/png" href="https://haruaddons.f5.si/haru-icon.png" sizes="32x32" />
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet" />
+
+        <!-- Font Awesome (アイコン用) -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+        <style>
+            :root {
+                /* モダンなカラーパレット */
+                --bg-body: #f3f5f9;
+                --bg-surface: #ffffff;
+                --primary: #6366f1; /* インディゴ */
+                --primary-hover: #4f46e5;
+                --accent: #ec4899; /* ピンク */
+                --text-main: #1e293b;
+                --text-sub: #64748b;
+                --border: #e2e8f0;
+
+                /* グラデーション */
+                --gradient-main: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+                --gradient-sub: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+
+                /* シャドウ & エフェクト */
+                --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+                --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                --shadow-neon: 0 0 20px rgba(99, 102, 241, 0.2);
+                --glass: rgba(255, 255, 255, 0.7);
+                --blur: blur(12px);
+
+                --font-jp: 'M PLUS Rounded 1c', sans-serif;
+                --font-en: 'Manrope', sans-serif;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background-color: var(--bg-body);
+                background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.15) 0px, transparent 50%);
+                background-attachment: fixed;
+                color: var(--text-main);
+                font-family: var(--font-en), var(--font-jp);
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            /* --- ナビゲーション --- */
+            nav {
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 1200px;
+                background: var(--glass);
+                backdrop-filter: var(--blur);
+                -webkit-backdrop-filter: var(--blur);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                border-radius: 100px;
+                padding: 0.8rem 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                z-index: 1000;
+                box-shadow: var(--shadow-md);
+                transition: all 0.3s ease;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                font-weight: 800;
+                background: var(--gradient-main);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+            }
+            .logo img {
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 2rem;
+                list-style: none;
+            }
+            .nav-links a {
+                color: var(--text-sub);
+                text-decoration: none;
+                font-weight: 700;
+                font-size: 0.95rem;
+                transition: color 0.3s;
+                position: relative;
+            }
+            .nav-links a:hover,
+            .nav-links a.active {
+                color: var(--primary);
+            }
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -4px;
+                left: 0;
+                background: var(--gradient-main);
+                transition: width 0.3s ease;
+            }
+            .nav-links a:hover::after {
+                width: 100%;
+            }
+
+            /* モバイルメニューハンバーガー */
+            .menu-btn {
+                display: none;
+                border: none;
+                background: none;
+                font-size: 1.5rem;
+                color: var(--text-main);
+                cursor: pointer;
+            }
+
+            /* --- ヒーローセクション --- */
+            .hero {
+                padding: 180px 20px 100px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+            .hero::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 60vw;
+                height: 60vw;
+                background: var(--gradient-main);
+                filter: blur(100px);
+                opacity: 0.1;
+                z-index: -1;
+                border-radius: 50%;
+            }
+
+            .hero-badge {
+                display: inline-block;
+                background: rgba(99, 102, 241, 0.1);
+                color: var(--primary);
+                padding: 6px 16px;
+                border-radius: 50px;
+                font-size: 0.9rem;
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+                border: 1px solid rgba(99, 102, 241, 0.2);
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+                font-weight: 800;
+                line-height: 1.2;
+                margin-bottom: 1.5rem;
+                background: linear-gradient(to right, #1e293b, #475569);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .hero p {
+                color: var(--text-sub);
+                font-size: 1.1rem;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            /* --- メインコンテンツ（グリッドレイアウト） --- */
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px 100px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                font-weight: 700;
+                margin-bottom: 2rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .section-title i {
+                color: var(--primary);
+            }
+
+            .music-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+                gap: 2rem;
+            }
+
+            /* --- 楽曲カードデザイン --- */
+            .track-card {
+                background: var(--bg-surface);
+                border-radius: 24px;
+                padding: 1.5rem;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid var(--border);
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                overflow: hidden;
+            }
+            .track-card:hover {
+                transform: translateY(-8px);
+                box-shadow: var(--shadow-lg);
+                border-color: rgba(99, 102, 241, 0.3);
+            }
+
+            /* ジャケット画像（エリア） */
+            .art-wrapper {
+                width: 100%;
+                aspect-ratio: 16/9;
+                background: var(--gradient-sub);
+                border-radius: 16px;
+                margin-bottom: 1.2rem;
+                position: relative;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .art-wrapper img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s ease;
+            }
+            .track-card:hover .art-wrapper img {
+                transform: scale(1.05);
+            }
+
+            /* ジャケットがない場合のプレースホルダー */
+            .art-placeholder {
+                font-size: 3rem;
+                color: white;
+                opacity: 0.5;
+            }
+
+            .track-info h3 {
+                font-size: 1.25rem;
+                font-weight: 800;
+                margin-bottom: 0.3rem;
+                color: var(--text-main);
+            }
+            .track-info p {
+                font-size: 0.9rem;
+                color: var(--text-sub);
+                margin-bottom: 1rem;
+                line-height: 1.5;
+            }
+
+            .tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            .tag {
+                font-size: 0.75rem;
+                padding: 4px 10px;
+                border-radius: 6px;
+                background: #f1f5f9;
+                color: var(--text-sub);
+                font-weight: 600;
+            }
+
+            /* オーディオプレイヤー周り */
+            .player-area {
+                margin-top: auto; /* カードの下部に寄せる */
+                background: #f8fafc;
+                padding: 0.8rem;
+                border-radius: 16px;
+            }
+            audio {
+                width: 100%;
+                height: 32px;
+                margin-bottom: 10px;
+            }
+            /* Chrome等の標準プレイヤーの色を少し調整（限界あり） */
+            audio::-webkit-media-controls-panel {
+                background-color: #f8fafc;
+            }
+
+            .action-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 0.5rem;
+            }
+
+            .dl-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: var(--text-main);
+                color: white;
+                text-decoration: none;
+                padding: 10px 20px;
+                border-radius: 50px;
+                font-weight: 700;
+                font-size: 0.9rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+            .dl-btn:hover {
+                background: var(--primary);
+                box-shadow: var(--shadow-neon);
+                transform: scale(1.02);
+            }
+            .file-size {
+                font-size: 0.75rem;
+                color: var(--text-sub);
+                font-weight: 600;
+            }
+
+            /* --- 利用規約エリア --- */
+            .terms-section {
+                background: white;
+                border-radius: 24px;
+                padding: 3rem;
+                margin-top: 4rem;
+                border: 1px solid var(--border);
+                position: relative;
+            }
+            .terms-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+            .term-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .term-icon {
+                width: 40px;
+                height: 40px;
+                background: rgba(99, 102, 241, 0.1);
+                color: var(--primary);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                flex-shrink: 0;
+            }
+            .term-text h4 {
+                font-size: 1rem;
+                font-weight: 700;
+                margin-bottom: 0.2rem;
+            }
+            .term-text p {
+                font-size: 0.9rem;
+                color: var(--text-sub);
+            }
+
+            /* フッター */
+            footer {
+                text-align: center;
+                padding: 3rem 0;
+                color: var(--text-sub);
+                font-size: 0.9rem;
+            }
+
+            /* --- レスポンシブ --- */
+            /* --- モバイルメニュー（オーバーレイ） --- */
+            .mobile-menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                z-index: 999;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                pointer-events: none; /* 閉じてる時はクリック不可に */
+                transition: opacity 0.3s ease;
+            }
+            .mobile-menu-overlay.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .mobile-menu-overlay ul {
+                list-style: none;
+                text-align: center;
+                gap: 2rem;
+                display: flex;
+                flex-direction: column;
+            }
+            .mobile-menu-overlay a {
+                font-size: 1.5rem;
+                font-weight: 800;
+                color: var(--text-main);
+                text-decoration: none;
+            }
+
+            /* --- レスポンシブ調整 --- */
+            @media (max-width: 768px) {
+                /* ナビゲーション */
+                nav {
+                    width: 95%;
+                    padding: 0.8rem 1.2rem;
+                }
+                .nav-links {
+                    display: none;
+                } /* PCメニューを隠す */
+                .menu-btn {
+                    display: block;
+                    z-index: 1001;
+                } /* ボタンを表示 */
+
+                /* ヒーローエリア */
+                .hero {
+                    padding: 140px 20px 60px;
+                }
+                .hero h1 {
+                    font-size: 2.2rem;
+                }
+                .hero p {
+                    font-size: 0.95rem;
+                }
+
+                /* グリッド（1列にする） */
+                .container {
+                    padding-bottom: 50px;
+                }
+                .music-grid {
+                    grid-template-columns: 1fr; /* スマホでは強制的に1列 */
+                    gap: 1.5rem;
+                }
+
+                /* カード */
+                .track-card {
+                    padding: 1.2rem;
+                }
+                .art-wrapper {
+                    border-radius: 12px;
+                    margin-bottom: 1rem;
+                }
+
+                /* 利用規約 */
+                .terms-section {
+                    padding: 1.5rem;
+                    margin-top: 3rem;
+                }
+                .terms-grid {
+                    grid-template-columns: 1fr;
+                    gap: 1.2rem;
+                }
+                .term-item {
+                    align-items: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- ナビゲーション -->
+        <nav>
+            <a href="#" class="logo">
+                <!-- アイコンがあればここにimg -->
+                <!-- <img src="../icon.png" alt="icon"> -->
+                <i class="fa-solid fa-music"></i> HARU Music
+            </a>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Gallery</a></li>
+                <li><a href="#terms">利用規約</a></li>
+            </ul>
+            <button class="menu-btn"><i class="fa-solid fa-bars"></i></button>
+        </nav>
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <ul>
+                <li><a href="#" class="mobile-link">Gallery</a></li>
+                <li><a href="#terms" class="mobile-link">利用規約</a></li>
+            </ul>
+        </div>
+        <!-- ヒーローヘッダー -->
+        <header class="hero">
+            <h1>Sound for Creators</h1>
+            <p>作りたい音だけを、ひたすらに追求する</p>
+        </header>
+
+        <div class="container">
+            <div class="section-title"><i class="fa-solid fa-compact-disc"></i> Track List</div>
+
+            <!-- 楽曲リスト生成エリア -->
+            <div id="music-container" class="music-grid">
+                <!-- Loading -->
+            </div>
+
+            <!-- 利用規約セクション -->
+            <div id="terms" class="terms-section">
+                <div class="section-title" style="margin-bottom: 0"><i class="fa-solid fa-file-contract"></i> License</div>
+                <p style="color: var(--text-sub); margin-top: 0.5rem">ご利用前に必ずご確認ください。</p>
+
+                <div class="terms-grid">
+                    <div class="term-item">
+                        <div class="term-icon"><i class="fa-solid fa-check"></i></div>
+                        <div class="term-text">
+                            <h4>商用・非商用OK</h4>
+                            <p>YouTube収益化動画や商用ゲーム、同人作品など自由に使えます。</p>
+                        </div>
+                    </div>
+                    <div class="term-item">
+                        <div class="term-icon"><i class="fa-solid fa-pen"></i></div>
+                        <div class="term-text">
+                            <h4>クレジット任意</h4>
+                            <p>表記は必須ではありませんが、していただけると励みになります。</p>
+                        </div>
+                    </div>
+                    <div class="term-item">
+                        <div class="term-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div class="term-text">
+                            <h4>加工・アレンジOK</h4>
+                            <p>尺の調整、ループ加工、フェード処理など用途に合わせてご自由に。</p>
+                        </div>
+                    </div>
+                    <div class="term-item">
+                        <div class="term-icon" style="background: #fee2e2; color: #ef4444"><i class="fa-solid fa-ban"></i></div>
+                        <div class="term-text">
+                            <h4>二次配布禁止</h4>
+                            <p>楽曲ファイルそのものを販売・再配布する行為は禁止です。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 HARU Music. Designed with Passion.</p>
+        </footer>
+
+        <script>
+            // ==========================================
+            //  【設定エリア】楽曲データ
+            // ==========================================
+            const musicList = [
+                {
+                    title: '夜の助走',
+                    desc: '元気が出るBGM',
+                    tags: ['Emotional', 'Night'],
+                    file: './files/夜の助走.mp3',
+                    size: '1.1 MB',
+                    // 画像がない場合は null にすると自動でグラデーションになります
+                    image: null,
+                },
+                {
+                    title: 'Emotionall',
+                    desc: 'リラックスできるBGM',
+                    tags: ['Emotional'],
+                    file: './files/Emotionall.mp3',
+                    size: '3.3 MB',
+                    image: null,
+                },
+                // 追加する場合はここへ
+            ];
+
+            // ==========================================
+            //  自動生成ロジック
+            // ==========================================
+            const container = document.getElementById('music-container');
+
+            function renderMusicList() {
+                let htmlContent = '';
+
+                musicList.forEach((track, index) => {
+                    // タグ生成
+                    const tagsHtml = track.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
+
+                    // 画像エリア生成 (画像があればimgタグ、なければアイコン)
+                    const imageHtml = track.image ? `<img src="${track.image}" alt="${track.title}" loading="lazy" />` : `<div class="art-placeholder"><i class="fa-solid fa-music"></i></div>`;
+
+                    htmlContent += `
+                    <div class="track-card">
+                        <div class="art-wrapper">
+                            ${imageHtml}
+                        </div>
+                        <div class="track-info">
+                            <div class="tags">${tagsHtml}</div>
+                            <h3>${track.title}</h3>
+                            <p>${track.desc}</p>
+                        </div>
+                        
+                        <div class="player-area">
+                            <audio controls preload="none">
+                                <source src="${track.file}" type="audio/mpeg">
+                            </audio>
+                            <div class="action-row">
+                                <span class="file-size">${track.size || 'MP3'}</span>
+                                <a href="${track.file}" download class="dl-btn">
+                                    <i class="fa-solid fa-download"></i> Download
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                });
+
+                container.innerHTML = htmlContent;
+            }
+
+            renderMusicList();
+
+            // モバイルメニューの簡易開閉
+            const menuBtn = document.querySelector('.menu-btn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            let isMenuOpen = false;
+
+            menuBtn.addEventListener('click', () => {
+                isMenuOpen = !isMenuOpen;
+                if (isMenuOpen) {
+                    mobileMenu.classList.add('active');
+                    menuBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>'; // アイコンを×に変更
+                } else {
+                    mobileMenu.classList.remove('active');
+                    menuBtn.innerHTML = '<i class="fa-solid fa-bars"></i>'; // アイコンをハンバーガーに戻す
+                }
+            });
+
+            // メニュー内のリンクをクリックしたら閉じる
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    isMenuOpen = false;
+                    mobileMenu.classList.remove('active');
+                    menuBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+                });
+            });
+        </script>
+    </body>
+</html>
